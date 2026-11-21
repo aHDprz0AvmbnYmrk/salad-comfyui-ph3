@@ -1,0 +1,26 @@
+# SaladCloud ComfyUI API 用 manifest.yaml
+# お仕置き画像見直し（expr_13〜17）・P-H3-Image 専用 w4a8 方式
+# 作成: 2026-11-16（Phase 0）
+#
+# モデルURLは公式リポジトリ PrunaAI/P-H3-Image-Comfy の実在パスで検証済み
+# （モデルカードの hf download 例と同一のフォルダ構成）。
+# 配置先は Salad 公式 ComfyUI ガイドの例に合わせ /opt/ComfyUI/models/ 配下。
+#
+# 注意: プロンプト拡張（upsampler）は自宅の常用セットに合わせて w4a8 版を使う。
+# 公式の最小セット例は bf16 版（19.3GB）を挙げているが、DL量とVRAMの都合で w4a8 に統一する。
+# w4a8 のアップサンプラーは bf16 と出力プロンプトが最もずれやすい点が公式の留保事項。
+
+models:
+  before_start:
+    - url: https://huggingface.co/PrunaAI/P-H3-Image-Comfy/resolve/main/diffusion_models/p-h3-image_w4a8.safetensors
+      local_path: /opt/ComfyUI/models/diffusion_models/p-h3-image_w4a8.safetensors
+    - url: https://huggingface.co/PrunaAI/P-H3-Image-Comfy/resolve/main/text_encoders/p-h3-image_text_encoder_w4a8.safetensors
+      local_path: /opt/ComfyUI/models/text_encoders/p-h3-image_text_encoder_w4a8.safetensors
+    - url: https://huggingface.co/PrunaAI/P-H3-Image-Comfy/resolve/main/text_encoders/p-h3-image_prompt_upsampler_w4a8.safetensors
+      local_path: /opt/ComfyUI/models/text_encoders/p-h3-image_prompt_upsampler_w4a8.safetensors
+    - url: https://huggingface.co/PrunaAI/P-H3-Image-Comfy/resolve/main/vae/p-h3-image_vae_int8_convrot.safetensors
+      local_path: /opt/ComfyUI/models/vae/p-h3-image_vae_int8_convrot.safetensors
+
+# カスタムノードは不要（P-H3-Image は ComfyUI 本体のノードのみで動作する、公式モデルカード記載）。
+# ただし Salad 公式イメージ側の ComfyUI バージョンが MiniMax H3 系ノードを含むかは Tier A で実測確認する。
+# 含まれない場合は Dockerfile 側で ComfyUI を新しい版へ差し替える。
